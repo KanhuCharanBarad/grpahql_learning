@@ -3,7 +3,7 @@ const { ApolloServer } = require("@apollo/server")
 const { expressMiddleware } = require("@apollo/server/express4")
 const bodyarser = require("body-parser")
 const cors = require("cors")
-const axios = require("axios")
+// const axios = require("axios")
 const typeDefs = require("./schema")
 const db = require("./_db")
 async function startServer() {
@@ -40,40 +40,37 @@ async function startServer() {
                 return db.reviews.filter((r) => r.author_id === parent.id)
             }
         },
-        Review:{
+        Review: {
             games(parent) {
 
-                return db.games.find((r) => r.id=== parent.game_id)
+                return db.games.find((r) => r.id === parent.game_id)
             },
             authors(parent) {
 
                 return db.authors.find((a) => a.id === parent.author_id)
             }
         },
-        Mutation:{
-            deleteGame(_,args)
-            {
-                db.games=db.games.filter((g)=>g.id != args.id)
+        Mutation: {
+            deleteGame(_, args) {
+                db.games = db.games.filter((g) => g.id != args.id)
                 return db.games
             },
-            addGame(_,args)
-            {
-                let game ={
+            addGame(_, args) {
+                let game = {
                     ...args.games,
-                    id:Math.floor(Math.random()*10000).toString()
+                    id: Math.floor(Math.random() * 10000).toString()
                 }
                 db.games.push(game)
                 return game;
             },
-            updateGame(_,args)
-            {
-                db.games=db.games.map((g)=>{
-                    if(g.id === args.id){
-                        return {...g,...args.edit}
+            updateGame(_, args) {
+                db.games = db.games.map((g) => {
+                    if (g.id === args.id) {
+                        return { ...g, ...args.edit }
                     }
                     return g
                 })
-                return db.games.find((g)=>g.id === args.id)
+                return db.games.find((g) => g.id === args.id)
             }
         }
     }

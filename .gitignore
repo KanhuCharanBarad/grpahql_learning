@@ -1,1 +1,18 @@
+# Environment files
+.env
+.env.local
+.env.*.local
+.env.development
+.env.test
+.env.production
+.env.local
+.env.*.local
+.env*.production
+.env*.development
+
+# Build and distribution files
+/build
+/dist
+/out
 /node_modules
+.gitignore
